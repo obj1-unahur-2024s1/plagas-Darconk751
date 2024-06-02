@@ -1,0 +1,116 @@
+import elementos.*
+import barrios.*
+import plagas.*
+
+describe "test de Elementos y Barrios respectivamente" {
+	/*Las instancias que se usan para la parte de barrios y elementos solamente */
+	const hogar1 = new Hogar(nivelDeMugre = 16, nivelDeConfort = 40)
+	const hogar2 = new Hogar(nivelDeMugre = 23, nivelDeConfort = 50)
+	const huerta1 = new Huerta(capacidadDeProduccion = 50, nivelDeProduccion = 30)
+	const huerta2 = new Huerta(capacidadDeProduccion = 40, nivelDeProduccion = 35)
+	const huerta3 = new Huerta(capacidadDeProduccion = 30, nivelDeProduccion = 60)
+	const firulais = new Mascota(nivelDeSalud = 400)
+	const pepito = new Mascota(nivelDeSalud = 200)
+	const barrio1 = new Barrio()
+	
+	/*Las instancias que se usan para el ataque de las plagas a los elementos */
+	
+	const cucaracha1 = new Cucaracha(pesoPromedioDeBicho = 20, poblacion = 80)
+	const pulga1 = new Pulga(poblacion = 50)
+	const garrapata1 = new Garrapata(poblacion = 30)
+	const mosquito1 = new Mosquito(poblacion = 23)
+	
+	method inicialize(){
+		barrio1.agregarElementos([huerta3, pepito])
+	}
+	test "Comprobando si cada elemento es bueno o no, en este caso hogar1, hogar2, huerta1, huerta2 y firulais deberian ser buenos, pepito y huerta3 no son buenos"{
+		assert.that(hogar1.esBueno())
+		assert.that(hogar2.esBueno())
+		assert.that(huerta1.esBueno())
+		assert.that(huerta2.esBueno())
+		assert.notThat(huerta3.esBueno())
+		assert.that(firulais.esBueno())
+		assert.notThat(pepito.esBueno())
+	}
+	test "Comprobando que el barrio1 no es copado al tener agregado por defecto a huerta3 y pepito"{
+		assert.notThat(barrio1.esCopado())
+	}
+	test "Comprobando que el barrio1 aun no es copado porque van empatados al haber agregado a hogar1 y firulais"{
+		barrio1.agregarElementos([hogar1, firulais])
+		assert.notThat(barrio1.esCopado())
+	}
+	test "Comprobando que el barrio1 ahora escopado al tener agregado mas elementos buenos que malos al haber agregado hogar2, huerta1 y huerta2"{
+		barrio1.agregarElementos([hogar2, huerta1, huerta2])
+		assert.that(barrio1.esCopado())
+	}
+	
+	test "Comprobando el estado de los elementos al recibir un ataque de una cucaracha"{
+		hogar1.recibirAtaqueDe(cucaracha1)
+		hogar2.recibirAtaqueDe(cucaracha1)
+		huerta1.recibirAtaqueDe(cucaracha1)
+		huerta2.recibirAtaqueDe(cucaracha1)
+		huerta3.recibirAtaqueDe(cucaracha1)
+		firulais.recibirAtaqueDe(cucaracha1)
+		pepito.recibirAtaqueDe(cucaracha1)
+		
+		assert.equals(56, hogar1.nivelDeMugre())
+		assert.equals(63, hogar2.nivelDeMugre())
+		assert.equals(35, huerta1.capacidadDeProduccion())
+		assert.equals(26, huerta2.capacidadDeProduccion())
+		assert.equals(17, huerta3.capacidadDeProduccion())
+		assert.equals(360, firulais.nivelDeSalud())
+		assert.equals(160, pepito.nivelDeSalud())
+	}
+	test "Comprobando el estado de los elementos al recibir un ataque de una pulga"{
+		hogar1.recibirAtaqueDe(pulga1)
+		hogar2.recibirAtaqueDe(pulga1)
+		huerta1.recibirAtaqueDe(pulga1)
+		huerta2.recibirAtaqueDe(pulga1)
+		huerta3.recibirAtaqueDe(pulga1)
+		firulais.recibirAtaqueDe(pulga1)
+		pepito.recibirAtaqueDe(pulga1)
+		
+		assert.equals(116, hogar1.nivelDeMugre())
+		assert.equals(123, hogar2.nivelDeMugre())
+		assert.equals(35, huerta1.capacidadDeProduccion())
+		assert.equals(26, huerta2.capacidadDeProduccion())
+		assert.equals(17, huerta3.capacidadDeProduccion())
+		assert.equals(300, firulais.nivelDeSalud())
+		assert.equals(100, pepito.nivelDeSalud())
+	}
+	test "Comprobando el estado de los elementos al recibir un ataque de una garrapata"{
+		hogar1.recibirAtaqueDe(garrapata1)
+		hogar2.recibirAtaqueDe(garrapata1)
+		huerta1.recibirAtaqueDe(garrapata1)
+		huerta2.recibirAtaqueDe(garrapata1)
+		huerta3.recibirAtaqueDe(garrapata1)
+		firulais.recibirAtaqueDe(garrapata1)
+		pepito.recibirAtaqueDe(garrapata1)
+		
+		assert.equals(76, hogar1.nivelDeMugre())
+		assert.equals(83, hogar2.nivelDeMugre())
+		assert.equals(35, huerta1.capacidadDeProduccion())
+		assert.equals(26, huerta2.capacidadDeProduccion())
+		assert.equals(17, huerta3.capacidadDeProduccion())
+		assert.equals(340, firulais.nivelDeSalud())
+		assert.equals(140, pepito.nivelDeSalud())
+	}
+	
+	test "Comprobando el estado de los elementos al recibir un ataque de un mosquito"{
+		hogar1.recibirAtaqueDe(mosquito1)
+		hogar2.recibirAtaqueDe(mosquito1)
+		huerta1.recibirAtaqueDe(mosquito1)
+		huerta2.recibirAtaqueDe(mosquito1)
+		huerta3.recibirAtaqueDe(mosquito1)
+		firulais.recibirAtaqueDe(mosquito1)
+		pepito.recibirAtaqueDe(mosquito1)
+		
+		assert.equals(39, hogar1.nivelDeMugre())
+		assert.equals(46, hogar2.nivelDeMugre())
+		assert.equals(45, huerta1.capacidadDeProduccion())
+		assert.equals(36, huerta2.capacidadDeProduccion())
+		assert.equals(27, huerta3.capacidadDeProduccion())
+		assert.equals(400, firulais.nivelDeSalud())
+		assert.equals(200, pepito.nivelDeSalud())
+	}
+}

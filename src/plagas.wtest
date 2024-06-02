@@ -1,0 +1,49 @@
+import plagas.*
+import elementos.*
+import barrios.*
+
+/*Las instancias que se utiliza para hacer las primeras pruebas*/
+
+const cucaracha1 = new Cucaracha(pesoPromedioDeBicho = 20, poblacion = 80)
+const pulga1 = new Pulga(poblacion = 50)
+const garrapata1 = new Garrapata(poblacion = 30)
+const mosquito1 = new Mosquito(poblacion = 23)
+
+/*una instancia hecha solo para los test de aumentar la poblacion de plagas*/
+
+const hogar1 = new Hogar(nivelDeMugre = 16, nivelDeConfort = 40)
+
+test "comprobando el daño de las plagas"{
+	assert.equals(40, cucaracha1.nivelDeDanio())
+	assert.equals(100, pulga1.nivelDeDanio())
+	assert.equals(60, garrapata1.nivelDeDanio())
+	assert.equals(23, mosquito1.nivelDeDanio())
+}
+
+test "Comprobando las plagas que tienen enfermedades"{
+	assert.that(cucaracha1.transmiteEnfermedades())
+	assert.that(pulga1.transmiteEnfermedades())
+	assert.that(garrapata1.transmiteEnfermedades())
+	assert.notThat(mosquito1.transmiteEnfermedades())
+}
+
+test "Comprobando del aumento de poblacion de las cucarachas"{
+	cucaracha1.atacarA(hogar1)
+	assert.equals(88, cucaracha1.poblacion())
+	assert.equals(22, cucaracha1.pesoPromedioDeBicho())
+}
+
+test "Comprobando del aumento de poblacion de las pulgas"{
+	pulga1.atacarA(hogar1)
+	assert.equals(55, pulga1.poblacion())
+}
+
+test "Comprobando del aumento de poblacion de las garrapatas"{
+	garrapata1.atacarA(hogar1)
+	assert.equals(36, garrapata1.poblacion())
+}
+
+test "Comprobando del aumento de poblacion de los mosquitos"{
+	mosquito1.atacarA(hogar1)
+	assert.equals(25.3, mosquito1.poblacion())
+}
